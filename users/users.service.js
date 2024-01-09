@@ -10,7 +10,15 @@ class UsersService {
    */
   async updateUser(req, res) {
     try {
-      const { firstName, lastName, sex, photo } = req.body;
+      const { filename, originalname, size } = req.file;
+      if (originalname.split('.')[1] !== 'jpg' && originalname.split('.')[1] !== 'png') {
+        return res.status(400).json('Неверный формат картинки')
+      }
+      if (size > 1e+7) {
+        return res.status(400).json('Большой объем картинки')
+      }
+      console.log('file: ', req.file);
+      const { firstName, lastName, sex } = req.body;
       const currentUserData = req.user;
       const userId = req.params.id;
       if (currentUserData.id !== +userId) return res.json('Вы не можете изменить чужой аккаунт');
@@ -20,7 +28,7 @@ class UsersService {
         firstName,
         lastName,
         sex,
-        photo,
+        photo: filename,
       });
       return res.json(isProfile);
     } catch (e) {
