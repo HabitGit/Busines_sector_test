@@ -9,6 +9,7 @@ const app = express()
 app.use(express.json())
 app.use(usersRouter)
 app.use('/user', authRouter)
+app.use('/static', express.static('files'))
 
 const start = async () => {
   try {
