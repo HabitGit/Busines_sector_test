@@ -13,7 +13,7 @@ app.use('/user', authRouter)
 const start = async () => {
   try {
     await db.authenticate();
-    await db.sync({ force: true });
+    await db.sync();
     app.listen(PORT, () => console.log(`Server was started on ${PORT} port...`))
   } catch (e) {
     console.log(e);
